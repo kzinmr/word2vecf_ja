@@ -1,0 +1,4 @@
+nltk==3.2.5
+mojimoji==0.0.6
+#pyknp==0.3
+git+https://github.com/kzinmr/pyknp-extend
