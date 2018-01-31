@@ -122,7 +122,7 @@ def write_deps(knp, vocab, ifp, ofp):
             continue
         for case, icase in attach_case(blist):
             if case.split('_')[-1] in vocab and icase.split('_')[-1] in vocab:
-                m = cace.split('_')[1]
+                m = case.split('_')[1]
                 h = icase.split('_')[1]
                 ofp.write(h + ' ' + case + '\n')
                 ofp.write(m + ' ' + icase + '\n')
