@@ -16,32 +16,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <pthread.h>
 #include "vocab.h"
 #include "io.h"
 
 
 #define MAX_STRING 100
-#define EXP_TABLE_SIZE 1000
-#define MAX_EXP 6
-#define MAX_SENTENCE_LENGTH 1000
-#define MAX_CODE_LENGTH 40
 
 
-typedef float real;                    // Precision of float numbers
-
-
-char train_file[MAX_STRING], output_file[MAX_STRING], cvocab_file[MAX_STRING], wvocab_file[MAX_STRING];
-int binary = 0, cbow = 0, debug_mode = 2, window = 5, min_count = 5, num_threads = 1, use_position = 0;
-long long layer1_size = 100;
-long long train_words = 0, word_count_actual = 0, classes = 0, dumpcv = 0;
-real alpha = 0.025, starting_alpha, sample = 0;
-real *syn0, *syn1, *syn1neg, *expTable;
-clock_t start;
-
-int hs = 1, negative = 0;
-const int table_size = 1e8;
-int *table;
+char train_file[MAX_STRING], cvocab_file[MAX_STRING], wvocab_file[MAX_STRING];
+int debug_mode = 2, min_count = 5;
+long long train_words = 0;
 
 void LearnVocabFromTrainFile() {
   char word[MAX_STRING];
@@ -87,36 +71,6 @@ void LearnVocabFromTrainFile() {
   fclose(fin);
   SaveVocab(wv, wvocab_file);
   SaveVocab(cv, cvocab_file);
-  
-  /////////////////////////////
-  /*
-  printf("\nSaved reduced vocabs, writing binary output\n\n");
-  fin = fopen(train_file, "rb");
-  if (fin == NULL) {
-    printf("ERROR: training data file not found!\n");
-    exit(1);
-  }
-  FILE* fout = fopen(output_file, "wb");
-  if (fout == NULL) {
-    printf("ERROR: outputfile cannot be created!\n");
-    exit(1);
-  }
-  train_words = 0;
-  while (!feof(fin)) {
-    train_words++;
-    if ((debug_mode > 1) && (train_words % 1000000 == 0)) {
-      printf("%lldK%c", train_words / 1000, 13);
-      fflush(stdout);
-    }
-    wi = ReadWordIndex(wv, fin);
-    ci = ReadWordIndex(cv, fin);
-    if (ci < 0 || wi < 0) continue;
-    fwrite(&wi,sizeof(int),1,fout);
-    fwrite(&ci,sizeof(int),1,fout);
-  }
-  fclose(fin);
-  fclose(fout);
-  */
 
   //TODO clean vocabularies
 }
