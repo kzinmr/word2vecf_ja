@@ -32,8 +32,8 @@
 #include "vocab.h"
 #include "io.h"
 
-#define MAX_STRING 200
-#define EXP_TABLE_SIZE 2000
+#define MAX_STRING 300
+#define EXP_TABLE_SIZE 3000
 #define MAX_EXP 6
 
 typedef float real;                    // Precision of float numbers
