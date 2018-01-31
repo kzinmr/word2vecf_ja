@@ -4,7 +4,7 @@
 #include "vocab.h"
 #include "io.h"
 
-#define MAX_STRING 100
+#define MAX_STRING 200
 
 //{{{ Hash
 #include "stdint.h" /* Replace with <stdint.h> if appropriate */

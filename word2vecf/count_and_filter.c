@@ -20,7 +20,7 @@
 #include "io.h"
 
 
-#define MAX_STRING 100
+#define MAX_STRING 200
 
 
 char train_file[MAX_STRING], cvocab_file[MAX_STRING], wvocab_file[MAX_STRING];
