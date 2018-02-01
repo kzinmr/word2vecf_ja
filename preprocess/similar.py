@@ -82,7 +82,7 @@ def main():
     parser.add_argument("--topk", "-k", type=int, default=5)
     parser.add_argument("--query", "-q", type=str, default='')
     parser.add_argument("--cnpyfile", "-c", type=str, default='')
-    parser.add_argument("--cvocabfile", "-u")
+    parser.add_argument("--cvocabfile", "-u", type=str, default='')
     args = parser.parse_args()
 
     npyfile = args.npyfile
