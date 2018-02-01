@@ -5,7 +5,7 @@ import numpy as np
 from pyknp import KNP
 
 
-def lookup_match(q, w2vec):
+def lookup_match(q, w2vec, topk=3):
     if '_' in q:
         return False
     ok = False
@@ -17,7 +17,7 @@ def lookup_match(q, w2vec):
             if m:
                 print(w)
                 q_new = m.group(0)
-                print_similar(q_new, w2vec)
+                print_similar(q_new, w2vec, topk)
                 seen.add(w)
                 ok = True
     return ok
@@ -29,10 +29,10 @@ def print_similar(q, w2vec, topk=3):
     for w, s in klist:
         print('{}:\t{}'.format(w, s))
 
-def parse_and_print(q, knp, w2vec):
+def parse_and_print(q, knp, w2vec, topk=3):
     if '/' in q:
         if q in w2vec:
-            print_similar(q, w2vec)
+            print_similar(q, w2vec, topk)
         else:
             print('Not in vocab: {}'.format(q))
             return
@@ -48,11 +48,11 @@ def parse_and_print(q, knp, w2vec):
     qhrep = b.hrepname
     qhprep = b.hprepname
     if qrep and qrep in w2vec:
-        print_similar(qrep, w2vec)
+        print_similar(qrep, w2vec, topk)
     elif qhrep and qhrep in w2vec:
-        print_similar(qhrep, w2vec)
+        print_similar(qhrep, w2vec, topk)
     elif qhprep and qhprep in w2vec:
-        print_similar(qhprep, w2vec)
+        print_similar(qhprep, w2vec, topk)
     else:
         print('Not in vocab: {}({})'.format(q, qrep))
 
@@ -61,6 +61,7 @@ def main():
     knp = KNP(jumanpp=True, option='-tab -assignf')
     npyfile = sys.argv[1]
     vocabfile = sys.argv[2]
+    topk = int(sys.argv[3])
     vectors = np.load(npyfile)
     vocabs = open(vocabfile, 'rt', encoding='utf8').read().splitlines()
     assert len(vocabs) == vectors.shape[0]
@@ -68,7 +69,7 @@ def main():
 
     while True:
         q = input()
-        parse_and_print(q, knp, w2vec)
+        parse_and_print(q, knp, w2vec, topk)
 
 
 if __name__ == '__main__':
