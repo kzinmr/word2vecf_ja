@@ -2,6 +2,8 @@ import sys
 import re
 import numpy as np
 
+from pyknp import KNP
+
 
 def lookup_match(q, w2vec):
     if '_' in q:
@@ -27,7 +29,36 @@ def print_similar(q, w2vec, topk=3):
     for w, s in klist:
         print('{}:\t{}'.format(w, s))
 
+def parse_and_print(q, knp, w2vec):
+    if '/' in q:
+        if q in w2vec:
+            print_similar(q, w2vec)
+        else:
+            print('Not in vocab: {}'.format(q))
+            return
+
+    blist = knp.parse(q)
+    if not blist:
+        print('parse error: {}'.format(q))
+        return
+    if len(blist) > 1:
+        print('multiple bunsetsu input: {}'.format('|'.join([b.repname for b in blist])))
+    b = blist[0]
+    qrep = b.repname
+    qhrep = b.hrepname
+    qhprep = b.hprepname
+    if qrep and qrep in w2vec:
+        print_similar(qrep, w2vec)
+    elif qhrep and qhrep in w2vec:
+        print_similar(qhrep, w2vec)
+    elif qhprep and qhprep in w2vec:
+        print_similar(qhprep, w2vec)
+    else:
+        print('Not in vocab: {}({})'.format(q, qrep))
+
+
 def main():
+    knp = KNP(jumanpp=True, option='-tab -assignf')
     npyfile = sys.argv[1]
     vocabfile = sys.argv[2]
     vectors = np.load(npyfile)
@@ -37,10 +68,7 @@ def main():
 
     while True:
         q = input()
-        if q in w2vec:
-            print_similar(q, w2vec)
-        elif not lookup_match(q, w2vec):
-            print('Not in vocab: {}'.format(q))
+        parse_and_print(q, knp, w2vec)
 
 
 if __name__ == '__main__':
