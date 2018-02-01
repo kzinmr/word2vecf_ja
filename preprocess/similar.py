@@ -36,15 +36,17 @@ def print_fired(q, c2vec, w2vec, topk=3):
     for c, s in klist:
         print('\t{}:\t{}'.format(c, s))
 
+def print_noparse(q, w2vec, topk=3, c2vec={}):
+    if q in w2vec:
+        print_similar(q, w2vec, topk)
+        if c2vec:
+            print_fired(q, c2vec, w2vec, topk=5)
+    else:
+        print('Not in vocab: {}'.format(q))
+
 def parse_and_print(q, knp, w2vec, topk=3, c2vec={}):
     if '/' in q:
-        if q in w2vec:
-            print_similar(q, w2vec, topk)
-            if c2vec:
-                print_fired(q, c2vec, w2vec, topk=5)
-        else:
-            print('Not in vocab: {}'.format(q))
-            return
+        print_noparse(q, w2vec, topk, c2vec)
 
     blist = knp.parse(q)
     if not blist:
@@ -56,25 +58,35 @@ def parse_and_print(q, knp, w2vec, topk=3, c2vec={}):
     qrep = b.repname
     qhrep = b.hrepname
     qhprep = b.hprepname
+    f = False
     if qrep and qrep in w2vec:
+        f = True
         print_similar(qrep, w2vec, topk)
         if c2vec:
             print_fired(qrep, c2vec, w2vec, topk=5)
-    elif qhrep and qhrep in w2vec:
+    if qhrep and qhrep in w2vec:
+        f = True
         print_similar(qhrep, w2vec, topk)
         if c2vec:
             print_fired(qhrep, c2vec, w2vec, topk=5)
-    elif qhprep and qhprep in w2vec:
+    if qhprep and qhprep in w2vec:
+        f = True
         print_similar(qhprep, w2vec, topk)
         if c2vec:
             print_fired(qhprep, c2vec, w2vec, topk=5)
-    else:
+    if not f:
         print('Not in vocab: {}({})'.format(q, qrep))
+
+def load_model(npyfile, vocabfile):
+    vectors = np.load(npyfile)
+    vocabs = open(vocabfile, 'rt', encoding='utf8').read().splitlines()
+    assert len(vocabs) == vectors.shape[0]
+    w2vec = {w: v / np.linalg.norm(v) for w, v in zip(vocabs, vectors)}
+    return w2vec
 
 
 def main():
     knp = KNP(jumanpp=True, option='-tab -assignf')
-
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--npyfile", "-m")
@@ -92,17 +104,11 @@ def main():
     cnpyfile = args.cnpyfile
     cvocabfile = args.cvocabfile
 
-    vectors = np.load(npyfile)
-    vocabs = open(vocabfile, 'rt', encoding='utf8').read().splitlines()
-    assert len(vocabs) == vectors.shape[0]
-    w2vec = {w: v / np.linalg.norm(v) for w, v in zip(vocabs, vectors)}
+    w2vec = load_model(npyfile, vocabfile)
     c2vec = {}
     cvocabs = []
     if cnpyfile and cvocabfile:
-        cvectors = np.load(cnpyfile)
-        cvocabs = open(cvocabfile, 'rt', encoding='utf8').read().splitlines()
-        assert len(cvocabs) == cvectors.shape[0]
-        c2vec = {w: v / np.linalg.norm(v) for w, v in zip(cvocabs, cvectors)}
+        c2vec = load_model(cnpyfile, cvocabfile)
 
     if query:
         parse_and_print(query, knp, w2vec, topk, c2vec)
