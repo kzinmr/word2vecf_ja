@@ -20,4 +20,4 @@ with open(filename, mode='rt', encoding='utf8') as fh:
     wvecs = np.array(wvecs)
 np.save(foutname+".npy", wvecs)
 with open(foutname+".vocab", "wt") as outf:
-    outf.write("".join(vocab)+"\n")
+    outf.write("".join(vocab))
