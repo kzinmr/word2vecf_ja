@@ -41,7 +41,7 @@ def parse_and_print(q, knp, w2vec, topk=3, c2vec={}):
         if q in w2vec:
             print_similar(q, w2vec, topk)
             if c2vec:
-                print_fired(q, c2vec, w2vec, topk=3)
+                print_fired(q, c2vec, w2vec, topk=5)
         else:
             print('Not in vocab: {}'.format(q))
             return
@@ -59,15 +59,15 @@ def parse_and_print(q, knp, w2vec, topk=3, c2vec={}):
     if qrep and qrep in w2vec:
         print_similar(qrep, w2vec, topk)
         if c2vec:
-            print_fired(qrep, c2vec, w2vec, topk=3)
+            print_fired(qrep, c2vec, w2vec, topk=5)
     elif qhrep and qhrep in w2vec:
         print_similar(qhrep, w2vec, topk)
         if c2vec:
-            print_fired(qhrep, c2vec, w2vec, topk=3)
+            print_fired(qhrep, c2vec, w2vec, topk=5)
     elif qhprep and qhprep in w2vec:
         print_similar(qhprep, w2vec, topk)
         if c2vec:
-            print_fired(qhprep, c2vec, w2vec, topk=3)
+            print_fired(qhprep, c2vec, w2vec, topk=5)
     else:
         print('Not in vocab: {}({})'.format(q, qrep))
 
