@@ -29,9 +29,9 @@ def print_similar(q, w2vec, topk=3):
     for w, s in klist:
         print('{}:\t{}'.format(w, s))
 
-def print_fired(w, c2vec, topk=3):
-    print('\ttop-{} fired context by {}:'.format(topk, w))
-    wv = c2vec[w]
+def print_fired(q, c2vec, w2vec, topk=3):
+    print('\ttop-{} fired context by {}:'.format(topk, q))
+    wv = w2vec[q]
     klist = sorted([(c, wv.dot(v)) for c, v in c2vec.items()], key=lambda x: -x[1])[:topk]
     for c, s in klist:
         print('\t{}:\t{}'.format(c, s))
@@ -41,7 +41,7 @@ def parse_and_print(q, knp, w2vec, topk=3, c2vec={}):
         if q in w2vec:
             print_similar(q, w2vec, topk)
             if c2vec:
-                print_fired(q, c2vec, topk=3)
+                print_fired(q, c2vec, w2vec, topk=3)
         else:
             print('Not in vocab: {}'.format(q))
             return
@@ -59,15 +59,15 @@ def parse_and_print(q, knp, w2vec, topk=3, c2vec={}):
     if qrep and qrep in w2vec:
         print_similar(qrep, w2vec, topk)
         if c2vec:
-            print_fired(qrep, c2vec, topk=3)
+            print_fired(qrep, c2vec, w2vec, topk=3)
     elif qhrep and qhrep in w2vec:
         print_similar(qhrep, w2vec, topk)
         if c2vec:
-            print_fired(qhrep, c2vec, topk=3)
+            print_fired(qhrep, c2vec, w2vec, topk=3)
     elif qhprep and qhprep in w2vec:
         print_similar(qhprep, w2vec, topk)
         if c2vec:
-            print_fired(qhprep, c2vec, topk=3)
+            print_fired(qhprep, c2vec, w2vec, topk=3)
     else:
         print('Not in vocab: {}({})'.format(q, qrep))
 
