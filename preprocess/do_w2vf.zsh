@@ -28,3 +28,7 @@ tar zcf $vecdir.tar.gz $vecdir
 gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar.gz
 gsutil cp $knpdir.tar.gz gs://nd-dataset/wikipedia_20180101/$knpdir.tar.gz
 gsutil cp $vecdir.tar.gz gs://nd-dataset/wikipedia_20180101/$vecdir.tar.gz
+
+if [[ -f done.sh ]];then
+    $scriptdir/done.sh $0
+fi

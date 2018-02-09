@@ -25,4 +25,6 @@ gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar
 gsutil cp $wakatidir.tar.gz gs://nd-dataset/wikipedia_20180101/$wakatidir.tar.gz
 gsutil cp $vecdir.tar.gz gs://nd-dataset/wikipedia_20180101/$vecdir.tar.gz
 
-
+if [[ -f done.sh ]];then
+    $scriptdir/done.sh $0
+fi
