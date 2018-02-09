@@ -5,7 +5,7 @@ vocabfile=${2-/data/user/wikipedia_dep/vocab/wikipedia.vocab.gz}
 outdir=${3-/data/user/wikipedia_dep/deps}
 p=${4-10}
 py=${5-/home/user/miniconda3/envs/wikipedia/bin/python}
-
+echo "extract vocab..."
 for d in $(ls -d ${datadir}/*)
 do
     od=${outdir}/$d:t
@@ -16,4 +16,4 @@ do
     echo "DONE:$d:t"
 done
 
-zcat ${outdir}/*/*.deps.gz | gzip -c > ${outdir}/context.deps.gz
+zcat ${outdir}/*/*.deps.gz > ${outdir}/context.deps

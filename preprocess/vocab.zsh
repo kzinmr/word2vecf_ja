@@ -4,7 +4,7 @@ datadir=${1-/data/user/wikipedia_knp}
 outdir=${2-/data/user/wikipedia_dep/vocab}
 p=${3-10}
 py=${4-/home/user/miniconda3/envs/wikipedia/bin/python}
-
+echo "construct vocab..."
 for d in $(ls -d ${datadir}/*)
 do
     od=${outdir}/$d:t
@@ -14,3 +14,4 @@ do
 done
 
 python reduce_vocab.py -d ${outdir}
+# generates $outdir/wikipedia.vocab.gz

@@ -26,7 +26,7 @@ def main():
         for w, c in wc:
             d[w] += int(c)
     lines = ['{}\t{}\n'.format(w, d[w]) for w in d if d[w] > threshold]
-    with gzip.open(os.path.join(vocabdir, 'wikipedia.vocab'), 'wt', encoding='utf8') as ofp:
+    with gzip.open(os.path.join(vocabdir, 'wikipedia.vocab.gz'), 'wt', encoding='utf8') as ofp:
         ofp.write(''.join(lines))
 
 if __name__ == "__main__":
