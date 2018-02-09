@@ -5,6 +5,7 @@ cores=${1-4}
 py=/miniconda/envs/py3/bin/python
 scriptdir=/word2vecf_ja/preprocess
 bindir=/word2vecf_ja/word2vecf
+slackdir=/word2evcf_ja/slackbot
 
 datadir=/data/wikipedia
 knpdir=/data/knp
@@ -26,5 +27,5 @@ gsutil cp $wakatidir.tar.gz gs://nd-dataset/wikipedia_20180101/$wakatidir.tar.gz
 gsutil cp $vecdir.tar.gz gs://nd-dataset/wikipedia_20180101/$vecdir.tar.gz
 
 if [[ -f done.sh ]];then
-    $scriptdir/done.sh $0
+    $slackdir/done.sh $0
 fi
