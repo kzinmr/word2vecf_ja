@@ -85,7 +85,7 @@ RUN curl -LO http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
 
 RUN conda create -n py2 python=2.7 && /bin/bash -c "source activate py2 && pip install -U pip"
 RUN conda create -n py3 python=3.6 && /bin/bash -c "source activate py3 && pip install -U pip"
-ENV PATH /miniconda/envs/py3/bin:$PATH
+RUN echo "export PATH=/miniconda/envs/py3/bin:$PATH\nsource activate py3" >> $HOME/.profile
 
 # Install Google Cloud SDK
 ENV CLOUDSDK_PYTHON /miniconda/envs/py2/bin/python
@@ -155,7 +155,7 @@ ENV LANG ja_JP.UTF-8
 ENV LC_CTYPE ja_JP.UTF-8
 RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
 
-RUN /bin/bash -c "source activate py3 && pip install --no-cache mojimoji==0.0.6 nltk==3.2.5"
+RUN /bin/bash -c "source activate py3 && pip install --no-cache mojimoji==0.0.6 nltk==3.2.5 mecab-python3==0.7 gensim==3.3.0 neologdn==0.2.1"
 RUN /bin/bash -c "source activate py3 && conda install jupyterlab numpy -c defaults"
 
 CMD ["/bin/bash"]
