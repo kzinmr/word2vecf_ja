@@ -5,5 +5,10 @@ cd /word2vecf_ja/word2vecf
 make -j4
 
 mkdir /data && cd /data
-gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar.gz
-tar zxf wikipedia_20180101.tar.gz
+if [[ ! -f /data/wikipedia_20180101.tar.gz ]];then
+    gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar.gz
+fi
+if [[ ! -d /data/wikipedia ]];then
+    tar zxf wikipedia_20180101.tar.gz
+fi
+gcloud source repos clone slackbot
