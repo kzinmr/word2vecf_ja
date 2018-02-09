@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 apt-get update && apt-get install nano zsh nkf htop tmux -y
 
 cd /word2vecf_ja/word2vecf
