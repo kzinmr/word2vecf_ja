@@ -4,11 +4,14 @@ apt-get update && apt-get install nano zsh nkf htop tmux -y
 cd /word2vecf_ja/word2vecf
 make -j4
 
-mkdir /data && cd /data
 if [[ ! -f /data/wikipedia_20180101.tar.gz ]];then
+    mkdir /data && cd /data
     gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar.gz
 fi
 if [[ ! -d /data/wikipedia ]];then
     tar zxf wikipedia_20180101.tar.gz
 fi
+
+ldconfig
+
 gcloud source repos clone slackbot

@@ -1,4 +1,5 @@
 #!/usr/bin/zsh
+SECONDS=0
 
 cores=${1-4}
 py=/miniconda/envs/py3/bin/python
@@ -30,6 +31,8 @@ gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar
 gsutil cp $knpdir.tar.gz gs://nd-dataset/wikipedia_20180101/$knpdir.tar.gz
 gsutil cp $vecdir.tar.gz gs://nd-dataset/wikipedia_20180101/$vecdir.tar.gz
 
+time_elapsed=$(echo $SECONDS)
+
 if [[ -f done.sh ]];then
-    $slackdir/done.sh $0
+    $slackdir/done.sh "$0: $time_elapsed"
 fi

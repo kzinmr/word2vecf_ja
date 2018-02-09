@@ -123,14 +123,14 @@ RUN git clone https://github.com/taku910/mecab.git \
 RUN wget -O juman-7.01.tar.bz2 http://nlp.ist.i.kyoto-u.ac.jp/nl-resource/juman/juman-7.01.tar.bz2 \
   && tar jxvf juman-7.01.tar.bz2 && cd juman-7.01 \
   && ./configure && make -j4 && make install \
-  && cd .. && rm -fr juman-7.01*
+  && cd .. && rm -fr juman-7.01* && ldconfig
 
 # Juman++v2
 RUN wget -O jumanpp-2.0.0-rc1.tar.xz https://github.com/ku-nlp/jumanpp/releases/download/v2.0.0-rc1/jumanpp-2.0.0-rc1.tar.xz \
   && tar xf jumanpp-2.0.0-rc1.tar.xz && cd jumanpp-2.0.0-rc1 \
   && mkdir bld && cd bld \
   && cmake .. -DCMAKE_BUILD_TYPE=Release && make install -j4 \
-  && cd ../.. && rm -fr jumanpp-2.0.0-rc1*
+  && cd ../.. && rm -fr jumanpp-2.0.0-rc1* && ldconfig
 
 # KNP
 # v4.18 has case analysis bug; use fixed version.
@@ -142,7 +142,7 @@ RUN cd knp-4.18 \
   && autoreconf --install \
   && ./configure \
   && make -j4 && make install \
-  && cd .. && rm -fr knp-4.18*
+  && cd .. && rm -fr knp-4.18* && ldconfig
 
 # PyKNP
 RUN git clone https://github.com/kzinmr/pyknp-extend.git \
