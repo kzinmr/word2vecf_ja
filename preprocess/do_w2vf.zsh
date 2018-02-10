@@ -5,7 +5,7 @@ cores=${1-4}
 py=/miniconda/envs/py3/bin/python
 scriptdir=/word2vecf_ja/preprocess
 bindir=/word2vecf_ja/word2vecf
-slackdir=/word2evcf_ja/slackbot
+slackdir=/word2vecf_ja/slackbot
 
 datadir=/data/wikipedia
 knpdir=/data/knp
@@ -33,6 +33,6 @@ gsutil cp $vecdir.tar.gz gs://nd-dataset/wikipedia_20180101/$vecdir.tar.gz
 
 time_elapsed=$(echo $SECONDS)
 
-if [[ -f done.sh ]];then
+if [[ -f $slackdir/done.sh ]];then
     $slackdir/done.sh "$0: $time_elapsed"
 fi
