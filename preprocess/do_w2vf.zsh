@@ -14,22 +14,24 @@ vecdir=/data/vec
 vocabdir=${depdir}/vocab
 mkdir -p $knpdir $vocabdir $vecdir
 
-
+echo "preprocessing..."
 ${scriptdir}/preprocess.zsh $datadir $knpdir $cores $py
 
-
+echo "constructing vocab..."
 ${scriptdir}/vocab.zsh $knpdir $vocabdir $cores $py
-
+echo "extracting deps..."
 ${scriptdir}/extract_ja.zsh $knpdir ${vocabdir}/wikipedia.vocab.gz $depdir $cores $py
-
+echo "lerning w2vf vectors..."
 ${scriptdir}/word2vecf.zsh ${depdir}/context.deps $vecdir $bindir $cores $py
 
+echo "copying to GCS..."
 cd /data
-tar zcf $knpdir.tar.gz $knpdir
-tar zcf $vecdir.tar.gz $vecdir
-gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar.gz
-gsutil cp $knpdir.tar.gz gs://nd-dataset/wikipedia_20180101/$knpdir.tar.gz
-gsutil cp $vecdir.tar.gz gs://nd-dataset/wikipedia_20180101/$vecdir.tar.gz
+knpd=$knpdir:t
+vecd=$vecdir:t
+tar zcf $knpd.tar.gz $knpd
+tar zcf $vecd.tar.gz $vecd
+gsutil cp $knpd.tar.gz gs://nd-dataset/wikipedia_20180101/$knpd.tar.gz
+gsutil cp $vecd.tar.gz gs://nd-dataset/wikipedia_20180101/$vecd.tar.gz
 
 time_elapsed=$(echo $SECONDS)
 

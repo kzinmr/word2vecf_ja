@@ -14,17 +14,20 @@ vecdir=/data/vec_w2v
 vocabdir=${depdir}/vocab
 mkdir -p $knpdir $vocabdir $vecdir
 
+echo "converting knp to wakati..."
 # ${scriptdir}/extract_ja.zsh $knpdir ${vocabdir}/wikipedia.vocab.gz $depdir $cores $py
 ${scriptdir}/knp2wakati.zsh $knpdir $wakatidir $cores $py
-
+echo "lerning w2v vectors..."
 ${scriptdir}/word2vec.zsh $wakatidir/wakati.txt $vecdir $bindir $cores $py
 
+echo "copying to GCS..."
 cd /data
-tar zcf $wakatidir.tar.gz $wakatidir
-tar zcf $vecdir.tar.gz $vecdir
-gsutil cp gs://nd-dataset/wikipedia_20180101.tar.gz /data/wikipedia_20180101.tar.gz
-gsutil cp $wakatidir.tar.gz gs://nd-dataset/wikipedia_20180101/$wakatidir.tar.gz
-gsutil cp $vecdir.tar.gz gs://nd-dataset/wikipedia_20180101/$vecdir.tar.gz
+wakatid=$wakatidir:t
+vecd=$vecdir:t
+tar zcf $wakatid.tar.gz $wakatid
+tar zcf $vecd.tar.gz $vecd
+gsutil cp $wakatid.tar.gz gs://nd-dataset/wikipedia_20180101/$wakatid.tar.gz
+gsutil cp $vecd.tar.gz gs://nd-dataset/wikipedia_20180101/$vecd.tar.gz
 
 time_elapsed=$(echo $SECONDS)
 
