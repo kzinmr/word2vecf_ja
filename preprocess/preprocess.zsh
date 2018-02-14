@@ -11,6 +11,5 @@ do
     if [[ ! -d $od ]];then
         mkdir -p $od
     fi
-    of=$
     ls $d/*.bz2 | parallel --no-notice -j $p "${py} preprocess.py {}| jumanpp | knp -tab |gzip -c > ${od}/{/.}.knp.gz"
 done
