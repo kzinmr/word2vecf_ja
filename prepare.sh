@@ -12,5 +12,5 @@ if [[ ! -d /data/wikipedia ]];then
 fi
 
 ldconfig
-
+cd /word2vecf_ja
 gcloud source repos clone slackbot
