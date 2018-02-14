@@ -30,4 +30,4 @@ zcat ${outdir}/*.anob.df.gz | gzip -c > ${outdir}/AnoB.df.raw.gz
 $py reduce_w2c.py ${outdir}/AnoB.df.raw.gz ${outdir}/AnoB.df.gz
 
 echo "calc score..."
-$py abscore.py ${outdir}/AB.df.gz ${outdir}/AnoB.df.gz
+$py abscore.py ${outdir}/AB.df.gz ${outdir}/AnoB.df.gz ${outdir}

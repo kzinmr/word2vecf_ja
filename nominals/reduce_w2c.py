@@ -7,7 +7,7 @@ def w2c_reader(ifp):
     lines = ifp.read().splitlines()
     d = {}
     for l in lines:
-        if l:
+        if l and len(l.split('\t'))==3:
             a, b, c = l.split('\t')
             d['\t'.join((a,b))] = int(c)
     return d
