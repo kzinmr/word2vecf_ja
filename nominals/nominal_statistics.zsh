@@ -12,21 +12,21 @@ do
         mkdir -p $od
     fi
     ls $d/*.gz | parallel --no-notice -j $p "${py} nominal_statistics.py {} ${od}"
-    zcat ${od}/*.ab.tf.gz > ${od}.ab.tf.gz
-    zcat ${od}/*.ab.df.gz > ${od}.ab.df.gz
-    zcat ${od}/*.anob.tf.gz > ${od}.anob.tf.gz
-    zcat ${od}/*.anob.df.gz > ${od}.anob.df.gz
+    zcat ${od}/*.ab.tf.gz | gzip -c > ${od}.ab.tf.gz
+    zcat ${od}/*.ab.df.gz | gzip -c > ${od}.ab.df.gz
+    zcat ${od}/*.anob.tf.gz | gzip -c > ${od}.anob.tf.gz
+    zcat ${od}/*.anob.df.gz | gzip -c > ${od}.anob.df.gz
     echo "DONE:$d:t"
 done
 
 echo "reducing TF/DF of AnoB/AB..."
-zcat ${outdir}/*.ab.tf.gz > ${outdir}/AB.tf.raw.gz
+zcat ${outdir}/*.ab.tf.gz | gzip -c > ${outdir}/AB.tf.raw.gz
 $py reduce_w2c.py ${outdir}/AB.tf.raw.gz ${outdir}/AB.tf.gz
-zcat ${outdir}/*.ab.df.gz > ${outdir}/AB.df.raw.gz
+zcat ${outdir}/*.ab.df.gz | gzip -c > ${outdir}/AB.df.raw.gz
 $py reduce_w2c.py ${outdir}/AB.df.raw.gz ${outdir}/AB.df.gz
-zcat ${outdir}/*.anob.tf.gz > ${outdir}/AnoB.tf.raw.gz
+zcat ${outdir}/*.anob.tf.gz | gzip -c > ${outdir}/AnoB.tf.raw.gz
 $py reduce_w2c.py ${outdir}/AnoB.tf.raw.gz ${outdir}/AnoB.tf.gz
-zcat ${outdir}/*.anob.df.gz > ${outdir}/AnoB.df.raw.gz
+zcat ${outdir}/*.anob.df.gz | gzip -c > ${outdir}/AnoB.df.raw.gz
 $py reduce_w2c.py ${outdir}/AnoB.df.raw.gz ${outdir}/AnoB.df.gz
 
 echo "calc score..."
