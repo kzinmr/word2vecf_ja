@@ -1,5 +1,4 @@
 #!/bin/bash
-apt-get update && apt-get install nano zsh nkf htop tmux -y
 
 cd /word2vecf_ja/word2vecf
 make -j4
@@ -13,5 +12,5 @@ if [[ ! -d /data/wikipedia ]];then
 fi
 
 ldconfig
-
+cd /word2vecf_ja
 gcloud source repos clone slackbot

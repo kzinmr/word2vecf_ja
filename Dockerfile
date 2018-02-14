@@ -147,7 +147,7 @@ RUN cd knp-4.18 \
 # PyKNP
 RUN git clone https://github.com/kzinmr/pyknp-extend.git \
   && cd pyknp-extend \
-  && python setup.py install
+  && /bin/bash -c "source activate py3 && python setup.py install"
 
 # Use Japanese locale
 RUN locale-gen ja_JP.UTF-8
