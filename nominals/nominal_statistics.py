@@ -8,7 +8,7 @@ from pyknp import KNP
 
 def is_single(repname):
     surf = repname.split('/')[0]
-    if not re.match('(?u)(\w\w+|[一-龥]+)', surf):
+    if not re.match('(\w\w+|[一-龥]+)', surf):
         return True
     return False
 
@@ -86,15 +86,15 @@ def extract_ab(bnst, delimiter='\t'):
 
 
 def parse_nominal(blist):
-    anob_pairs = []
-    ab_pairs = []
+    anob_list = []
+    ab_list = []
     for bnst in blist:
         if is_meisi(bnst) and no_ignored(bnst):
             anob = extract_anob(bnst)
             ab = extract_ab(bnst)
-            anob_pairs.extend(anob)
-            ab_pairs.extend(ab)
-    return anob_pairs, ab_pairs
+            anob_list.extend(anob)
+            ab_list.extend(ab)
+    return anob_list, ab_list
 
 def result_doc_reader(fp, splitter='EOS'):
     results_doc = []
@@ -154,23 +154,23 @@ def doc_parse(knp, ifp):
             did2df_ab[did] = ab_df
     return did2tf_anob, did2df_anob, did2tf_ab, did2df_ab
 
-def reduce_count(did2count):
+def reduce_count(did2count, df=False):
     global_count = defaultdict(int)
     for did in did2count:
         w2c  = did2count[did]
         for w, c in w2c.items():
-            global_count[w] += c
+            global_count[w] += c if not df else 1
     return global_count
 
 def parse_and_write(knp, ifp, ofp_tf_anob, ofp_tf_ab, ofp_df_anob, ofp_df_ab):
     did2tf_anob, did2df_anob, did2tf_ab, did2df_ab = doc_parse(knp, ifp)
     tf_anob = reduce_count(did2tf_anob)
     ofp_tf_anob.write('\n'.join([w+'\t'+str(c) for w,c in tf_anob.items()]) + '\n')
-    df_anob = reduce_count(did2df_anob)
+    df_anob = reduce_count(did2df_anob, True)
     ofp_df_anob.write('\n'.join([w+'\t'+str(c) for w,c in df_anob.items()]) + '\n')
     tf_ab = reduce_count(did2tf_ab)
     ofp_tf_ab.write('\n'.join([w+'\t'+str(c) for w,c in tf_ab.items()]) + '\n')
-    df_ab = reduce_count(did2df_ab)
+    df_ab = reduce_count(did2df_ab, True)
     ofp_df_ab.write('\n'.join([w+'\t'+str(c) for w,c in df_ab.items()]) + '\n')
 
 

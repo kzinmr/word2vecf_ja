@@ -14,10 +14,9 @@ def w2c_reader(ifp):
 
 def reduce_count(did2count):
     global_count = defaultdict(int)
-    for did in did2count:
-        w2c  = did2count[did]
-        for w, c in w2c.items():
-            global_count[w] += c
+    w2c  = did2count[did]
+    for w, c in w2c.items():
+        global_count[w] += c
     return global_count
 
 def main():
