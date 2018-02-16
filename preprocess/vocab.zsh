@@ -13,5 +13,5 @@ do
     echo "DONE:$d:t"
 done
 
-python reduce_vocab.py -d ${outdir}
+${py} reduce_vocab.py -d ${outdir}
 # generates $outdir/wikipedia.vocab.gz
